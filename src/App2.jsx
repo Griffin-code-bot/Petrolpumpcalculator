@@ -14,25 +14,46 @@ const [rembills, setRemBills] = useState(
 
 
 const [nozzles, setNozzles] = useState([
-    {start:"", end:""},
-    {start:"", end:""},
-    {start:"", end:""},
-    {start:"", end:""},
-    {start:"", end:""},
-    {start:"", end:""},
+    {start:"2", end:"1",category:"d"},
+    {start:"", end:"",category:"d"},
+    {start:"", end:"",category:"d"},
+    {start:"", end:"",category:"d"},
+    {start:"", end:"",category:"p"},
+    {start:"2", end:"1",category:"p"},
 ])
 const PRICE = 99.67;
    
+const PETROL_PRICE = 114.57
    
 const totalDifference = nozzles.reduce((sum, nozzle) => {
   return sum + (Number(nozzle.start) - Number(nozzle.end));
 }, 0);
  
+const totalAmount = nozzles.reduce((sum, nozzle) => {
+  const price = nozzle.category === "d" ? PRICE : PETROL_PRICE;
+
+  return (
+    sum +
+    (Number(nozzle.start) - Number(nozzle.end)) * price
+  );
+}, 0);
 
    return(
     <> 
      <h2>This is app 2 </h2>
-  {nozzles.map((nozzle, index) => (
+  {nozzles.map((nozzle, index) => {
+
+
+
+const price = nozzle.category === "d" ? PRICE : PETROL_PRICE;
+
+
+
+const amount =
+  (Number(nozzle.end) - Number(nozzle.start)) * price;
+
+
+  return(
     <div key={index}>
         <h2>Nozzle {index + 1}</h2>
 
@@ -57,17 +78,29 @@ const totalDifference = nozzles.reduce((sum, nozzle) => {
     }}
          />
        {[...nozzles][index].start-[...nozzles][index].end}
-     <p>  
+   
+{/* 
+    <p>  
   {(Number([...nozzles][index].start)
   -Number([...nozzles][index].end))* PRICE}
      </p>
 
+*/}
+   <p>
+  {(Number(nozzle.start) - Number(nozzle.end)) * price}
+</p>
+
+    <p>Amount{amount}</p>
+
+     
+
 
 <p>Total Litres: {totalDifference}</p>
-<p>Total Fuel Sold: {totalDifference*99.67}</p>
+<p>Total Fuel Sold: {totalAmount}</p>
 
     </div>
-))}
+)
+})}
   
 
 
