@@ -12,6 +12,9 @@ const [rembills, setRemBills] = useState(
     Array(10).fill("")
 )
 
+const [creditCards, setCreditCards] = useState(
+  Array(10).fill("")
+);
 
 const [nozzles, setNozzles] = useState([
     {start:"2", end:"1",category:"d"},
@@ -22,6 +25,8 @@ const [nozzles, setNozzles] = useState([
     {start:"2", end:"1",category:"p"}
 
 ])
+
+const [paytm, setPaytm] = useState("");
 const PRICE = 99.67;
    
 const PETROL_PRICE = 114.57
@@ -51,9 +56,18 @@ const totalAmount = nozzles.reduce((sum, nozzle) => {
   );
 }, 0);
 
+const totalCreditCards = creditCards.reduce(
+  (sum, amount) => sum + Number(amount),
+  0
+);
 
-const cashInHand = totalAmount - totalBills - totalRemBills;
+const cashInHand = totalAmount -
+           totalBills -
+            totalRemBills-
+             Number(paytm) -
+  totalCreditCards;
 
+Display:
    return(
     <> 
      <h2>This is app 2 </h2>
@@ -184,12 +198,54 @@ const amount =
 ))
 }
 
+<p>
+<label>
+Paytm:
+<input 
+ type="number"
+placeholder="Enter paytm number"
+ value={paytm}
+ onChange={(e) => {
+  setPaytm(e.target.value)
+
+ }}   
+
+/>
+</label>
+</p>
+
+
+<p>Credit card </p>
+{
+  creditCards.map((item, index) => (
+   <div key={index}>
+    <h2>Cc {index + 1} </h2>
+   <input
+   type="number"
+    value={item}
+    onChange={(e) => {
+          const updatedCreditCards = [...creditCards];
+          updatedCreditCards[index] = e.target.value;
+          setCreditCards(updatedCreditCards);
+        }}
+
+    />
+    </div>
+))
+}
+
 <hr />
 
 <p>Total Fuel Sold: ₹{totalAmount.toFixed(2)}</p>
 <p>Total Bills: ₹{totalBills.toFixed(2)}</p>
 <p>Remaining Bills: ₹{totalRemBills.toFixed(2)}</p>
-<p>Cash in Hand: ₹{cashInHand.toFixed(2)}</p>
+<p>Paytm: ₹{paytm}</p>
+<p>Credit Card: ₹{totalCreditCards}</p>
+
+
+<hr />
+
+<h2>Cash in Hand: ₹{cashInHand.toFixed(2)}</h2>
 
    <Footer />
    </>
