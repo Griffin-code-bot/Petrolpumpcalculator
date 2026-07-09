@@ -25,6 +25,16 @@ const [nozzles, setNozzles] = useState([
 const PRICE = 99.67;
    
 const PETROL_PRICE = 114.57
+
+const totalBills = bills.reduce((sum, bill) => {
+  return sum + Number(bill) * PRICE;
+}, 0);
+
+
+const totalRemBills = rembills.reduce((sum, bill) => {
+  return sum + Number(bill) * 10;
+}, 0);
+
    
 const totalDifference = nozzles.reduce((sum, nozzle) => {
   return sum + (Number(nozzle.start) - Number(nozzle.end));
@@ -33,11 +43,16 @@ const totalDifference = nozzles.reduce((sum, nozzle) => {
 const totalAmount = nozzles.reduce((sum, nozzle) => {
   const price = nozzle.category === "d" ? PRICE : PETROL_PRICE;
 
+
+
   return (
     sum +
     (Number(nozzle.start) - Number(nozzle.end)) * price
   );
 }, 0);
+
+
+const cashInHand = totalAmount - totalBills - totalRemBills;
 
    return(
     <> 
@@ -169,6 +184,12 @@ const amount =
 ))
 }
 
+<hr />
+
+<p>Total Fuel Sold: ₹{totalAmount.toFixed(2)}</p>
+<p>Total Bills: ₹{totalBills.toFixed(2)}</p>
+<p>Remaining Bills: ₹{totalRemBills.toFixed(2)}</p>
+<p>Cash in Hand: ₹{cashInHand.toFixed(2)}</p>
 
    <Footer />
    </>
