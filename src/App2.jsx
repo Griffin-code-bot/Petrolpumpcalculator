@@ -24,7 +24,9 @@ const [nozzles, setNozzles] = useState([
 const PRICE = 99.67;
    
    
-
+const totalDifference = nozzles.reduce((sum, nozzle) => {
+  return sum + (Number(nozzle.start) - Number(nozzle.end));
+}, 0);
  
 
    return(
@@ -55,7 +57,15 @@ const PRICE = 99.67;
     }}
          />
        {[...nozzles][index].start-[...nozzles][index].end}
-          
+     <p>  
+  {(Number([...nozzles][index].start)
+  -Number([...nozzles][index].end))* PRICE}
+     </p>
+
+
+<p>Total Litres: {totalDifference}</p>
+<p>Total Fuel Sold: {totalDifference*99.67}</p>
+
     </div>
 ))}
   
@@ -86,7 +96,8 @@ const PRICE = 99.67;
 
 */}
 
-{ [...bills].reduce((accumulator, current) =>accumulator + Number(current)*99.67 , 0)}
+{ [...bills].reduce((accumulator, current) =>
+  accumulator + Number(current)*99.67 , 0)}
 </div>
 ))       
 }
