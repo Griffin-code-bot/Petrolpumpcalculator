@@ -19,7 +19,8 @@ const [nozzles, setNozzles] = useState([
     {start:"", end:"",category:"d"},
     {start:"", end:"",category:"d"},
     {start:"", end:"",category:"p"},
-    {start:"2", end:"1",category:"p"},
+    {start:"2", end:"1",category:"p"}
+
 ])
 const PRICE = 99.67;
    
@@ -50,7 +51,7 @@ const price = nozzle.category === "d" ? PRICE : PETROL_PRICE;
 
 
 const amount =
-  (Number(nozzle.end) - Number(nozzle.start)) * price;
+  (Number(nozzle.start) - Number(nozzle.end)) * price;
 
 
   return(
@@ -77,9 +78,14 @@ const amount =
       setNozzles(updatedNozzles);
     }}
          />
-       {[...nozzles][index].start-[...nozzles][index].end}
+
+  {Number(nozzle.start) - Number(nozzle.end)}
+
+{/*
+       {[...nozzles][index].start-
+      [...nozzles][index].end}
    
-{/* 
+ 
     <p>  
   {(Number([...nozzles][index].start)
   -Number([...nozzles][index].end))* PRICE}
@@ -90,7 +96,7 @@ const amount =
   {(Number(nozzle.start) - Number(nozzle.end)) * price}
 </p>
 
-    <p>Amount{amount}</p>
+    <p>Amount:{amount}</p>
 
      
 
