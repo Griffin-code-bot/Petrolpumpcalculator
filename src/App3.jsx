@@ -1,10 +1,10 @@
 import {useState, useEffect} from 'react'
 import Footer from '../components/Footer'
+import "./App3_better.css";
 
 
 
-
-export default function App2() {
+export default function App() {
  
  const [nozzles, setNozzles] = useState(() => {
   const saved = localStorage.getItem("nozzles");
@@ -17,6 +17,7 @@ export default function App2() {
         { start: "", end: "", category: "d" },
         { start: "", end: "", category: "p" },
         { start: "2", end: "1", category: "p" },
+        { start: "2", end: "1", category: "p" }
       ];
 });
 
