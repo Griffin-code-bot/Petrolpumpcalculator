@@ -54,7 +54,7 @@ const totalRemBills = rembills.reduce((sum, bill) => {
 
    
 const totalDifference = nozzles.reduce((sum, nozzle) => {
-  return sum + (Number(nozzle.start) - Number(nozzle.end));
+  return sum + (Number(nozzle.end) - Number(nozzle.start));
 }, 0);
  
 const totalAmount = nozzles.reduce((sum, nozzle) => {
@@ -64,7 +64,7 @@ const totalAmount = nozzles.reduce((sum, nozzle) => {
 
   return (
     sum +
-    (Number(nozzle.start) - Number(nozzle.end)) * price
+    (Number(nozzle.end) - Number(nozzle.start)) * price
   );
 }, 0);
 
@@ -92,7 +92,7 @@ const price = nozzle.category === "d" ? PRICE : PETROL_PRICE;
 
 
 const amount =
-  (Number(nozzle.start) - Number(nozzle.end)) * price;
+  (Number(nozzle.end) - Number(nozzle.start)) * price;
 
 
 
