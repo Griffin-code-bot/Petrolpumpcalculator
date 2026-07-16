@@ -228,7 +228,7 @@ export default function App3() {
           <div className="card-grid">
             {nozzles.map((nozzle, index) => {
               const price = nozzle.category === "d" ? DIESEL_PRICE : PETROL_PRICE;
-              const litres = Math.max(Number(nozzle.start) - Number(nozzle.end), 0);
+              const litres = Math.max(Number(nozzle.end) - Number(nozzle.start), 0);
               const amount = litres * price;
 
               return (
