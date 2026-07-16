@@ -120,7 +120,7 @@ export default function App3() {
   const totals = useMemo(() => {
     const nozzleTotals = nozzles.map((nozzle) => {
       const price = nozzle.category === "d" ? DIESEL_PRICE : PETROL_PRICE;
-      const litres = Math.max(Number(nozzle.start) - Number(nozzle.end), 0);
+      const litres = Math.max(Number(nozzle.end) - Number(nozzle.start), 0);
       return {
         price,
         litres,
