@@ -141,7 +141,7 @@ useEffect(() => {
     }}
          />
 
-  {Number(nozzle.start) - Number(nozzle.end)}
+  {Number(nozzle.end) - Number(nozzle.start)}
 
 {/*
        {[...nozzles][index].start-
@@ -155,7 +155,7 @@ useEffect(() => {
 
 */}
    <p>
-  {(Number(nozzle.start) - Number(nozzle.end)) * price}
+  {(Number(nozzle.end) - Number(nozzle.start)) * price}
 </p>
 
     <p>Amount:{amount}</p>
