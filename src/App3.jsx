@@ -122,7 +122,7 @@ useEffect(() => {
 
         <input
         type="number"
-        value={nozzle.end}
+        value={nozzle.start}
         onChange={(e) => {
       const updatedNozzles = [...nozzles];
       updatedNozzles[index].start = e.target.value;
@@ -133,7 +133,7 @@ useEffect(() => {
 
         <input
         type="number"
-        value={nozzle.start}
+        value={nozzle.end}
         onChange={(e) => {
       const updatedNozzles = [...nozzles];
       updatedNozzles[index].end = e.target.value;
