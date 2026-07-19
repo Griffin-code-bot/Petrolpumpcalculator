@@ -275,7 +275,9 @@ placeholder="Enter paytm number"
 <p>Paytm: ₹{paytm}</p>
 <p>Credit Card: ₹{totalCreditCards}</p>
 
-
+<p>Total Online: ₹{totalAmount.toFixed(2)}-
+₹{cashInHand.toFixed(2)}
+</p>
 <hr />
 
 <h2>Cash in Hand: ₹{cashInHand.toFixed(2)}</h2>

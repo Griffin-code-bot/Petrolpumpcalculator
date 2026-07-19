@@ -340,6 +340,16 @@ export default function App3() {
         </Section>
 
         <footer className="bottom-bar">
+         
+       <div>
+        <span>Total online</span>
+        <strong>
+        
+  {money((totals.totalAmount)-(totals.cashInHand))}
+      
+      </strong>
+       </div>
+
           <div>
             <span>Cash in hand</span>
             <strong>{money(totals.cashInHand)}</strong>
