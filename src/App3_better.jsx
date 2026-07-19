@@ -197,6 +197,12 @@ export default function App3() {
               tone="accent"
             />
             <StatCard
+              label="Total online"
+              value={money(totals.totalAmount-totals.cashInHand)}
+              hint="Total online"
+              tone="accent"
+            />
+            <StatCard
               label="Bills"
               value={money(totals.totalBills)}
               hint="Bill entries × price"
