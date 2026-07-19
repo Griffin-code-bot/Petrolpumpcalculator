@@ -199,7 +199,7 @@ export default function App3() {
             <StatCard
               label="Total online"
               value={money(totals.totalAmount-totals.cashInHand)}
-              hint="Total online"
+             
               tone="accent"
             />
             <StatCard
