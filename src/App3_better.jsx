@@ -8,12 +8,12 @@ const BILL_PRICE = 99.67;
 const REMAINING_BILL_PRICE = 10;
 
 const DEFAULT_NOZZLES = [
-  { start: "2", end: "1", category: "d" },
+  { start: "", end: "", category: "d" },
   { start: "", end: "", category: "d" },
   { start: "", end: "", category: "d" },
   { start: "", end: "", category: "d" },
   { start: "", end: "", category: "p" },
-  { start: "2", end: "1", category: "p" },
+  { start: "", end: "", category: "p" },
 ];
 
 const DEFAULT_ARRAY = Array(10).fill("");
