@@ -378,3 +378,30 @@ body {
     padding: 18px;
   }
 }
+
+
+.preview {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.preview img {
+  max-width: 100%;
+  max-height: 500px;
+  border-radius: 12px;
+  border: 1px solid #444;
+}
+
+.preview-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.preview-actions button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}

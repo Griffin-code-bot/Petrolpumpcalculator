@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import Footer from "../components/Footer";
 import "./App3_better.css";
+import { readTotalizer } from "./utils/readTotalizer";
+import { parseTotalizer } from "./utils/parseTotalizer";
+
+
+
 
 const DIESEL_PRICE = 99.67;
 const PETROL_PRICE = 114.57;
@@ -16,7 +21,9 @@ const DEFAULT_NOZZLES = [
   { start: "", end: "", category: "p" },
 ];
 
-const DEFAULT_ARRAY = Array(18).fill("");
+
+
+const DEFAULT_ARRAY = Array(20).fill("");
 
 function safeParse(key, fallback) {
   try {
@@ -97,6 +104,23 @@ export default function App3() {
     return localStorage.getItem("paytm") || "";
   });
 
+
+const [ocrText, setOcrText] = useState("");
+const [ocrProgress, setOcrProgress] = useState(0);
+const [parsedData, setParsedData] = useState({});
+
+const [startData, setStartData] = useState({});
+const [endData, setEndData] = useState({});
+const [litresSold, setLitresSold] = useState({});
+const [selectedImage, setSelectedImage] = useState(null);
+
+const [rotation, setRotation] = useState(0);
+const [ocrLoading, setOcrLoading] = useState(false);
+
+
+const [selectedFile, setSelectedFile] = useState(null);
+
+
   useEffect(() => {
     localStorage.setItem("nozzles", JSON.stringify(nozzles));
   }, [nozzles]);
@@ -116,6 +140,21 @@ export default function App3() {
   useEffect(() => {
     localStorage.setItem("paytm", paytm);
   }, [paytm]);
+
+useEffect(() => {
+  const result = {};
+
+  Object.keys(endData).forEach((nozzle) => {
+    if (startData[nozzle] !== undefined) {
+      result[nozzle] =
+        +(endData[nozzle] - startData[nozzle]).toFixed(2);
+    }
+  });
+
+  setLitresSold(result);
+}, [startData, endData]);
+
+
 
   const totals = useMemo(() => {
     const nozzleTotals = nozzles.map((nozzle) => {
@@ -162,6 +201,100 @@ export default function App3() {
     localStorage.clear();
     window.location.reload();
   };
+
+async function handleBillUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const text = await readTotalizer(file, setOcrProgress);
+
+  console.log(text);
+
+  setOcrText(text);
+
+const data = parseTotalizer(text);
+
+console.log(text);
+console.log(data);
+
+setParsedData(data);
+
+
+
+
+
+}
+
+
+
+async function handleStartBill(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const text = await readTotalizer(file, setOcrProgress);
+  console.log("OCR TEXT");
+  console.log(text);
+alert(text.substring(0, 500));
+
+
+  const data = parseTotalizer(text);
+alert(JSON.stringify(data))
+console.log("PARSED");
+console.log(data);
+
+  setStartData(data);
+}
+
+async function handleEndBill(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const text = await readTotalizer(file, setOcrProgress);
+  const data = parseTotalizer(text);
+
+  setEndData(data);
+}
+
+function handleImage(file) {
+  if (!file) return;
+
+  setSelectedFile(file);
+  setSelectedImage(URL.createObjectURL(file));
+}
+
+async function handleReadReceipt() {
+
+alert("1. Function started");
+
+
+
+
+  if (!selectedImage) return;
+
+  try {
+alert("2. Before readTotalizer");
+
+    setOcrLoading(true);
+
+  
+const text = await readTotalizer(
+  selectedFile,
+  setOcrProgress
+);
+
+
+
+
+alert("3. readTotalizer finished");
+
+
+    setOcrText(text);
+alert("4. OCR text saved")
+  } finally {
+    setOcrLoading(false);
+  }
+}
+
 
   return (
     <div className="app-shell">
@@ -229,6 +362,132 @@ export default function App3() {
             </div>
           </div>
         </Section>
+
+<Section
+  title="Totalizer OCR"
+  subtitle="Upload the start and end totalizer slips."
+>
+  <div className="field-row">
+    <div className="field">
+      <label className="field-label">Start Bill</label>
+
+      <input
+        type="file"
+        accept="image/*"
+       
+        onChange={handleStartBill}
+      />
+    </div>
+
+    <div className="field">
+      <label className="field-label">End Bill</label>
+
+      <input
+        type="file"
+        accept="image/*"
+       
+        onChange={handleEndBill}
+      />
+    </div>
+  </div>
+
+  <p className="muted">OCR Progress: {ocrProgress}%</p>
+
+  <h3>Detected Start Bill</h3>
+  <pre>{JSON.stringify(startData, null, 2)}</pre>
+
+  <h3>Detected End Bill</h3>
+  <pre>{JSON.stringify(endData, null, 2)}</pre>
+
+  <h3>Litres Sold</h3>
+
+  {Object.keys(litresSold).length === 0 ? (
+    <p className="muted">Upload both bills to calculate litres sold.</p>
+  ) : (
+    Object.entries(litresSold).map(([nozzle, litres]) => (
+      <div key={nozzle} className="result-row">
+        <span>Nozzle {nozzle}</span>
+        <strong>{litres.toFixed(2)} L</strong>
+      </div>
+    ))
+  )}
+</Section>
+
+<label className="ocr-btn">
+  📷 Take Photo
+
+  <input
+    hidden
+    type="file"
+    accept="image/*"
+    capture="environment"
+    onChange={(e) => handleImage(e.target.files[0])}
+  />
+</label>
+<label className="ocr-btn">
+  📁 Upload from Gallery
+
+  <input
+    hidden
+    type="file"
+    accept="image/*"
+    onChange={(e) => handleImage(e.target.files[0])}
+  />
+</label>
+{selectedImage && (
+  <div className="preview">
+    <img src={selectedImage} alt="Receipt Preview"
+      height= "50px"
+style={{
+    transform: `rotate(${rotation}deg)`,
+    transition: "0.3s"
+  }}
+
+ />
+  </div>
+)}
+
+
+<div className="preview-actions">
+  <button onClick={() => setRotation(r => r - 90)}>
+    ↺ Rotate Left
+  </button>
+
+  <button onClick={() => setRotation(r => r + 90)}>
+    ↻ Rotate Right
+  </button>
+
+  <button
+    onClick={() => {
+      setSelectedImage(null);
+setSelectedFile(null)
+      setRotation(0);
+    }}
+  >
+    🗑 Remove
+  </button>
+</div>
+
+<button
+  onClick={handleReadReceipt}
+  disabled={!selectedImage || ocrLoading}
+>
+  {ocrLoading ? "Reading..." : "📄 Read Receipt"}
+</button>
+
+{ocrLoading && (
+  <div>
+    Reading receipt... {Math.round(ocrProgress)}%
+  </div>
+)}
+
+{ocrText && (
+  <div className="ocr-output">
+    <h3>OCR Output</h3>
+
+    <pre>{ocrText}</pre>
+  </div>
+)}
 
         <Section title="Nozzles" subtitle="Enter start and end readings for each nozzle.">
           <div className="card-grid">
